@@ -2,6 +2,7 @@ package edu.pitt.cs;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class RentACatImpl implements RentACat {
 
@@ -18,7 +19,17 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public boolean returnCat(int id) {
-		// TODO
+		for (Cat c : cats) {
+			if (c.getId() != id) {
+				continue;
+			}
+			if (!c.getRented()) {
+				return false;
+			}
+
+			c.returnCat();
+			return true;
+		}
 		return false;
 	}
 
@@ -33,7 +44,18 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public boolean rentCat(int id) {
-		// TODO
+		for(Cat c: cats){
+			if(c.getId() != id) {
+				continue;
+			}
+			if (c.getRented()) {
+				return false;
+			}
+
+			c.rentCat();
+			return true;
+		}
+
 		return false;
 	}
 
@@ -48,8 +70,9 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public String listCats() {
-		// TODO
-		return "WRITE CODE FOR THIS";
+		return cats.stream()
+			.map(c -> c.toString() + "\n")
+			.collect(Collectors.joining());
 	}
 
 	/**
@@ -62,7 +85,16 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public boolean catExists(int id) {
-		// TODO
+		if (this.cats == null) {
+			return false;
+		}
+		
+		for (Cat c : cats) {
+			if (c.getId() == id) {
+				return true;
+			}
+		}
+
 		return false;
 	}
 
